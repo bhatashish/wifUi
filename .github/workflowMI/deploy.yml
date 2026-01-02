@@ -1,3 +1,5 @@
+name: Deploy to Azure
+on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -5,9 +7,10 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      - run: az account show  # Test login
+    - uses: actions/checkout@v4
+    - uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    - run: az account show
